@@ -1,2 +1,126 @@
-# partition
-A PHP function to partition a set of values into equal sets or near equal
+# The Partition Problem
+
+A PHP function to partition a set of values into equal sets or near equal sets (partitions). 
+Read more about the [partition problem on wikipedia](https://en.wikipedia.org/wiki/Partition_problem).
+
+
+## Installing
+
+Find on [packagist.org](https://packagist.org/packages/mikegarde/partition)
+
+`composer require mikegarde/partition`
+
+
+## Example
+
+```php
+<?php
+
+require 'vendor/autoload.php';
+
+use partition\partition;
+
+$data = [
+	[
+		'id'    => 'A',
+		'value' => 5,
+	],
+	[
+		'id'    => 'B',
+		'value' => 5,
+	],
+	[
+		'id'    => 'C',
+		'value' => 15,
+	],
+	[
+		'id'    => 'D',
+		'value' => 5,
+	],
+	[
+		'id'    => 'E',
+		'value' => 9,
+	],
+	[
+		'id'    => 'F',
+		'value' => 3,
+	],
+	[
+		'id'    => 'G',
+		'value' => 7,
+	],
+	[
+		'id'    => 'H',
+		'value' => 12,
+	],
+];
+
+$partition = new partition($data, 4);
+
+$results = $partition->getResults();
+$part    = $partition->getPartition(0);
+```
+
+A JSON representation of `$results` and `$part`
+
+```json
+{
+  "summary": [
+    15,
+    17,
+    14,
+    15
+  ],
+  "partitions": [
+    [
+      {
+        "id": "C",
+        "value": 15
+      }
+    ],
+    [
+      {
+        "id": "H",
+        "value": 12
+      },
+      {
+        "id": "D",
+        "value": 5
+      }
+    ],
+    [
+      {
+        "id": "E",
+        "value": 9
+      },
+      {
+        "id": "B",
+        "value": 5
+      }
+    ],
+    [
+      {
+        "id": "G",
+        "value": 7
+      },
+      {
+        "id": "A",
+        "value": 5
+      },
+      {
+        "id": "F",
+        "value": 3
+      }
+    ]
+  ]
+}
+```
+
+```json
+[
+  {
+    "id": "C",
+    "value": 15
+  }
+]
+```
