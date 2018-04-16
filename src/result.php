@@ -1,7 +1,6 @@
 <?php namespace partition\support;
 
 use Functional as f;
-use partition\partitionException;
 
 class result
 {

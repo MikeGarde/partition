@@ -459,15 +459,7 @@ class partitionTest extends TestCase
 			],
 		];
 
-		$partition = new partition($data, 3, 'greedy');
-
-		$this->assertEquals(972, $partition->getResults()->summary[0]);
-		$this->assertEquals(972, $partition->getResults()->summary[1]);
-		$this->assertEquals(972, $partition->getResults()->summary[2]);
-
-		$this->assertEquals(29, count($partition->getResults()->partitions[0]));
-		$this->assertEquals(31, count($partition->getResults()->partitions[1]));
-		$this->assertEquals(31, count($partition->getResults()->partitions[2]));
+		new partition($data, 3, 'greedy');
 	}
 
 	public function testNonAutoRun()

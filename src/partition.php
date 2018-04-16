@@ -3,9 +3,6 @@
 use Functional as f;
 use partition\support\entry;
 use partition\support\result;
-use Respect\Validation\Exceptions\NestedValidationException;
-use Respect\Validation\Validator as v;
-
 
 class partition
 {
@@ -31,52 +28,46 @@ class partition
 	{
 		$unsorted = [];
 
-		try
+		if (is_array($data))
 		{
-			if (is_array($data))
+			if (current($data) instanceof entry)
 			{
-				if (current($data) instanceof entry)
+				foreach($data as $item)
 				{
-					v::arrayVal()->each(v::instance('entry'))->assert($data);
-
-					$unsorted = &$data;
-				}
-				else
-				{
-					v::arrayVal()->each(
-						v::keySet(
-							v::key('id', v::alnum()),
-							v::key('value', v::numeric()->positive()))
-					)->assert($data);
-
-					foreach ($data as $item)
+					if (!($item instanceof entry))
 					{
-						$unsorted[] = new entry($item['id'], $item['value']);
+						throw new partitionException('all data items must be an entry');
 					}
 				}
+
+				$unsorted = &$data;
 			}
-		}
-		catch (NestedValidationException $e)
-		{
-			throw new partitionException('provided data array requires both "id" and "value" keys with "value" being a positive integer');
+			else
+			{
+				foreach ($data as $item)
+				{
+					if (!isset($item['id']) || !isset($item['value']))
+					{
+						throw new partitionException('id and value need to be set');
+					}
+
+					$unsorted[] = new entry($item['id'], $item['value']);
+				}
+			}
 		}
 
 		$this->data = $this->sortData($unsorted);
 
 		$this->setSize($size);
 
-		try
-		{
-			v::boolType()->assert($run);
-
-			if ($run)
-			{
-				$this->greedy();
-			}
-		}
-		catch (NestedValidationException $e)
+		if (is_bool($run) === false)
 		{
 			throw new partitionException('automatic run feature needs to be a boolean');
+		}
+
+		if ($run)
+		{
+			$this->greedy();
 		}
 	}
 
@@ -104,18 +95,14 @@ class partition
 	 *
 	 * @throws partitionException
 	 */
-	public function setSize($size)
+	public function setSize(int $size)
 	{
-		try
-		{
-			v::numeric()->positive()->assert($size);
-		}
-		catch (NestedValidationException $e)
+		if ($size < 1)
 		{
 			throw new partitionException('setSize must be a positive number');
 		}
 
-		$this->size   = (int) $size;
+		$this->size   = $size;
 		$this->result = new result($size);
 	}
 

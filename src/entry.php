@@ -1,8 +1,6 @@
 <?php namespace partition\support;
 
 use partition\partitionException;
-use Respect\Validation\Exceptions\NestedValidationException;
-use Respect\Validation\Validator as v;
 
 class entry
 {
@@ -20,12 +18,7 @@ class entry
 	public function __construct($id, $value)
 	{
 		// Validate Data Structure
-		try
-		{
-			v::alnum()->assert($id);
-			v::numeric()->positive()->assert($value);
-		}
-		catch (NestedValidationException $e)
+		if (!$id || !is_numeric($value) || $value < 0)
 		{
 			throw new partitionException('provided data array requires both "name" and "value" keys with "value" being a positive integer');
 		}
