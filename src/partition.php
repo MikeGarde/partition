@@ -91,15 +91,15 @@ class partition
 	}
 
 	/**
-	 * @param $size
+	 * @param int $size
 	 *
 	 * @throws partitionException
 	 */
-	public function setSize(int $size)
+	public function setSize($size)
 	{
-		if ($size < 1)
+		if (!is_int($size) || $size < 1)
 		{
-			throw new partitionException('setSize must be a positive number');
+			throw new partitionException('setSize must be a positive integer');
 		}
 
 		$this->size   = $size;
@@ -125,7 +125,7 @@ class partition
 	 * @return entry[]
 	 * @throws partitionException
 	 */
-	public function getPartition(int $key)
+	public function getPartition($key)
 	{
 		if ($key > $this->size || $key < 0)
 		{
