@@ -16,10 +16,17 @@ class result
 	/**
 	 * result constructor.
 	 *
-	 * @param int $size
+	 * @param $size
+	 *
+	 * @throws \Exception
 	 */
-	public function __construct(int $size)
+	public function __construct($size)
 	{
+		if (!is_int($size))
+		{
+			throw new \Exception('size must be an integer');
+		}
+
 		for ($i = 0; $i < $size; $i++)
 		{
 			$this->summary[ $i ]    = 0;
@@ -33,7 +40,7 @@ class result
 	 * @param int   $part
 	 * @param entry $entry
 	 */
-	public function add(int $part, entry $entry)
+	public function add($part, entry $entry)
 	{
 		$this->partitions[ $part ][] = $entry;
 		$this->summary[ $part ]      += $entry->value;

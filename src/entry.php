@@ -10,8 +10,8 @@ class entry
 	/**
 	 * data constructor.
 	 *
-	 * @param $id
-	 * @param $value
+	 * @param string|int $id
+	 * @param int        $value
 	 *
 	 * @throws partitionException
 	 */
