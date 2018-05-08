@@ -6,7 +6,7 @@ use partition\support\result;
 
 class partition
 {
-	/** @var array */
+	/** @var entry[] */
 	private $data;
 
 	/** @var int */
@@ -18,13 +18,13 @@ class partition
 	/**
 	 * partition constructor.
 	 *
-	 * @param      $data
+	 * @param array $data
 	 * @param int  $size
-	 * @param bool $run  This is reserved for potential future alternative algorithms
 	 *
+	 * @throws \Exception
 	 * @throws partitionException
 	 */
-	public function __construct($data = null, $size = 2, $run = true)
+	public function __construct($data, $size = null)
 	{
 		$unsorted = [];
 
@@ -58,19 +58,17 @@ class partition
 
 		$this->data = $this->sortData($unsorted);
 
-		$this->setSize($size);
-
-		if (is_bool($run) === false)
+		if ($size)
 		{
-			throw new partitionException('automatic run feature needs to be a boolean');
-		}
-
-		if ($run)
-		{
-			$this->greedy();
+			$this->setSize($size);
 		}
 	}
 
+	/**
+	 * @param $data
+	 *
+	 * @return array
+	 */
 	private function sortData($data)
 	{
 		$sorted = f\sort($data, function ($part1, $part2) {
@@ -93,6 +91,7 @@ class partition
 	/**
 	 * @param int $size
 	 *
+	 * @throws \Exception
 	 * @throws partitionException
 	 */
 	public function setSize($size)
@@ -104,6 +103,34 @@ class partition
 
 		$this->size   = $size;
 		$this->result = new result($size);
+	}
+
+
+	/**
+	 * Set the maximum size of a returned set
+	 *
+	 * @param $size
+	 *
+	 * @throws \Exception
+	 * @throws partitionException
+	 */
+	public function setMaxSetSize($size)
+	{
+		if (!is_int($size) || $size < 1)
+		{
+			throw new partitionException('setMaxSetSize must be a positive integer');
+		}
+
+		$valueSum = 0;
+
+		foreach ($this->data as $item)
+		{
+			$valueSum += $item->value;
+		}
+
+		$numOfSets = (int) ceil($valueSum / $size);
+
+		$this->setSize($numOfSets);
 	}
 
 	public function getSortedData()
@@ -136,9 +163,9 @@ class partition
 	}
 
 	/**
-	 * The default algorithm for processing
+	 * Crunch the numbers
 	 */
-	public function greedy()
+	public function process()
 	{
 		foreach ($this->data as $entry)
 		{
