@@ -1,6 +1,6 @@
 <?php namespace partition;
 
-use Functional as f;
+use DusanKasan\Knapsack\Collection;
 use partition\support\entry;
 use partition\support\result;
 
@@ -71,7 +71,7 @@ class partition
 	 */
 	private function sortData($data)
 	{
-		$sorted = f\sort($data, function ($part1, $part2) {
+		$sorted = Collection::from($data)->sort(function ($part1, $part2) {
 			if ($part1->value === $part2->value)
 			{
 				return 0;
@@ -83,7 +83,7 @@ class partition
 			}
 
 			return -1;
-		});
+		})->toArray();
 
 		return $sorted;
 	}
