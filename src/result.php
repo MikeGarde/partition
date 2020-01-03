@@ -1,6 +1,6 @@
 <?php namespace partition\support;
 
-use Functional as f;
+use DusanKasan\Knapsack\Collection;
 
 class result
 {
@@ -71,7 +71,7 @@ class result
 	 */
 	public function getLowestValue()
 	{
-		return f\minimum($this->summary);
+		return Collection::from($this->summary)->min();
 	}
 
 	/**
@@ -79,7 +79,7 @@ class result
 	 */
 	public function getGreatestValue()
 	{
-		return f\maximum($this->summary);
+		return Collection::from($this->summary)->max();
 	}
 
 	/**
@@ -87,7 +87,7 @@ class result
 	 */
 	public function getTotalValue()
 	{
-		return f\sum($this->summary);
+		return Collection::from($this->summary)->sum();
 	}
 
 	/**
