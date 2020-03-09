@@ -1,4 +1,4 @@
-FROM php:7.4-cli
+FROM php:7.4.3-cli
 
 RUN apt-get update -yqq \
  && apt-get install -yqq \

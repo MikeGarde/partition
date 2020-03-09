@@ -3,13 +3,11 @@
 A PHP function to partition a set of values into equal sets or near equal sets (partitions). 
 Read more about the [partition problem on wikipedia](https://en.wikipedia.org/wiki/Partition_problem).
 
-
 ## Installing
 
 Find on [packagist.org](https://packagist.org/packages/mikegarde/partition)
 
 `composer require mikegarde/partition`
-
 
 ## Example
 
