@@ -1,5 +1,12 @@
 # The Partition Problem
 
+[![Packagist](https://img.shields.io/packagist/dt/mikegarde/partition.svg)](https://packagist.org/packages/mikegarde/partition)
+[![Packagist](https://img.shields.io/packagist/dd/mikegarde/partition.svg)](https://packagist.org/packages/mikegarde/partition)
+[![GitHub](https://img.shields.io/github/license/mikegarde/partition.svg)](https://github.com/MikeGarde/partition)
+[![PHP from Travis config](https://img.shields.io/travis/php-v/mikegarde/partition.svg)](https://travis-ci.org/MikeGarde/partition)
+[![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/mikegarde/partition.svg)](https://github.com/MikeGarde/partition)
+[![Travis (.org)](https://img.shields.io/travis/mikegarde/partition.svg)](https://travis-ci.org/MikeGarde/partition)
+
 A PHP function to partition a set of values into equal sets or near equal sets (partitions). 
 Read more about the [partition problem on wikipedia](https://en.wikipedia.org/wiki/Partition_problem).
 
