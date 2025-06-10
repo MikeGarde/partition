@@ -130,11 +130,6 @@ A JSON representation of `$results` and `$part`
 ]
 ```
 
-## Development Notes
-
-```bash
-docker build . -t php:7.4
-
-docker run --rm -it -v $(pwd):/var/www/html php:7.4 composer install
-docker run --rm -it -v $(pwd):/var/www/html php:7.4 php ./vendor/bin/phpunit --bootstrap vendor/autoload.php tests
-```
+## TODO:
+- [ ] Replace [dusank/knapsack](https://packagist.org/packages/dusank/knapsack) with a custom implementation
+- [ ] Move/Duplicate to GitHub Actions
