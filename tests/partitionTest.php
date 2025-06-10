@@ -1,7 +1,11 @@
-<?php namespace partition;
+<?php
 
+use partition\partition;
+use partition\partitionException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
+#[CoversClass(partition::class)]
 class partitionTest extends TestCase
 {
 	private $longData = [

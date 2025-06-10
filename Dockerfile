@@ -1,19 +1,18 @@
-FROM php:7.4.3-cli
+ARG PHP_VERSION=8.1
+FROM php:${PHP_VERSION}-cli
 
-RUN apt-get update -yqq \
- && apt-get install -yqq \
-    # install sshd
-    openssh-server \
-    # install ping and netcat (for debugging xdebug connectivity)
-    iputils-ping netcat \
-    # common php extensions
-    zip unzip libzip-dev libmcrypt-dev zlib1g-dev;
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    git zip unzip curl libzip-dev
 
-RUN docker-php-ext-install zip
+# Install Composer &...
+# Can install >100 PHP extensions
+# See: https://github.com/mlocati/docker-php-extension-installer
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions && sync
+RUN install-php-extensions @composer xdebug
 
-COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+COPY devops/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
+RUN rm /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-WORKDIR /var/www/html
-
-# @see https://docs.docker.com/engine/examples/running_ssh_service/
-CMD ["/usr/sbin/sshd", "-D"]
+WORKDIR /app

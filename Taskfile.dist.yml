@@ -1,0 +1,47 @@
+version: '3'
+
+vars:
+  DEFAULT_PHP: '8.4'
+
+tasks:
+  default:
+    silent: true
+    cmds:
+      - task --list
+      - echo ""
+      - echo -e "\033[34mGet more details by running \033[36mtask --summary [COMMAND]\033[0m"
+
+  build:
+    vars:
+      PHP_VERSION: '{{.DEFAULT_PHP}}'
+    desc: Build the Docker image for PHP development
+    cmds:
+      - task: build:{{.PHP_VERSION}}
+  build:*:
+    vars:
+      PHP_VERSION: '{{index .MATCH 0}}'
+    cmds:
+      - docker compose down
+      - rm -f composer.lock
+      - docker compose build --build-arg PHP_VERSION={{.PHP_VERSION}}
+      - docker compose up -d
+      - docker compose exec php composer install --no-interaction --prefer-dist
+
+  test:unit:
+    desc: Run tests inside the container
+    cmds:
+      - docker compose run --rm php composer test
+  test:all:
+    desc: Run all tests inside the container
+    cmds:
+      - |
+        VERSIONS=("7.4" "8.0" "8.1" "8.2" "8.3" "8.4")
+        for VERSION in "${VERSIONS[@]}"; do
+          task build:$VERSION
+          task test:unit
+        done
+
+  ssh:
+    desc: SSH into the PHP container
+    cmds:
+      - docker compose exec php bash
