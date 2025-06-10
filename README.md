@@ -61,6 +61,7 @@ $data = [
 ];
 
 $partition = new partition($data, 4);
+$partition->process();
 
 $results = $partition->getResults();
 $part    = $partition->getPartition(0);
